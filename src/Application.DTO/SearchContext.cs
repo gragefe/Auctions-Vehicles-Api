@@ -4,7 +4,7 @@ using Application.DTO.Enum;
 
 public class SearchContext
 {
-    public VehicleType? Type { get; set; }
+    public VehicleType? VehicleType { get; set; }
 
     public string? Manufacturer { get; set; }
 
