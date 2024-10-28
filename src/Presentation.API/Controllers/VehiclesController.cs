@@ -28,39 +28,34 @@ public class VehiclesController : Controller
     }
 
     [HttpPost(Name = "Create")]
-    public async Task<ActionResult> CreateVehiclesAsync([FromBody] Vehicle vehicle)
+    public async Task<ActionResult> CreateAsync([FromBody] Vehicle vehicle)
     {
-        await _createVehiclesService.CreateAsync(vehicle);
-        var vehicleId = Guid.NewGuid();
+        var vehicleId = await _createVehiclesService.CreateAsync(vehicle);
         var resourceLocationUri = this.Request?.GetDisplayUrl() + $"/{vehicleId}";
-        return this.Created(resourceLocationUri, null);
+        return this.Created(resourceLocationUri, vehicleId);
     }
 
     [HttpPut(Name = "Update")]
-    public async Task<ActionResult> UpdateVehiclesAsync([FromBody] Vehicle vehicle)
+    public async Task<ActionResult> UpdateAsync([FromBody] Vehicle vehicle)
     {
-        await _updateVehiclesService.UpdateAsync(vehicle);
-        var vehicleId = Guid.NewGuid();
+        var vehicleId = await _updateVehiclesService.UpdateAsync(vehicle);
         var resourceLocationUri = this.Request?.GetDisplayUrl() + $"/{vehicleId}";
-        return this.Created(resourceLocationUri, null);
+        return this.Created(resourceLocationUri, vehicleId);
     }
 
     [HttpGet, Route("GetById")]
-    public async Task<ActionResult> UpdateVehiclesAsync([Required, FromQuery] Guid id)
+    public async Task<ActionResult> GetByIdAsync([Required, FromQuery] Guid id)
     {
-        var vehicle = await _getByIdVehiclesService.GetByIdAsync(id);
-        return this.Ok( vehicle);
+        return this.Ok(await _getByIdVehiclesService.GetByIdAsync(id));
     }
 
     [HttpPost, Route("Search")]
-    public async Task<ActionResult<Page<Vehicle>>> SearechVehiclesAsync(
+    public async Task<ActionResult<Page<Vehicle>>> SearechAsync(
         [FromBody] SearchContext searchContext,
         [FromQuery] int? page = null,
         [FromQuery] int? pageSize = null
         )
     {
-        await _searchVehiclesService.SearchAsync(searchContext);
-        var resourceLocationUri = this.Request?.GetDisplayUrl() + $"/{123}";
-        return this.Created(resourceLocationUri, null);
+        return this.Ok(await _searchVehiclesService.SearchAsync(searchContext));
     }
 }
