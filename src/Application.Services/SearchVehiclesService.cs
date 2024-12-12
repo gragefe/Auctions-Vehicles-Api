@@ -8,18 +8,10 @@ using Domain.Model.Interfaces;
 using DomainAbstract = Domain.Model.Abstract;
 
 
-public class SearchVehiclesService : ISearchVehiclesService
+public class SearchVehiclesService(IRepository repository) : ISearchVehiclesService
 {
-    private readonly IRepository _repository;
-
-    public SearchVehiclesService(
-        IRepository repository)
-    {
-        _repository = repository;
-    }
-
     public async Task<List<DomainAbstract.Vehicle>> SearchAsync(SearchContext searchContextDto)
     {
-       return await _repository.SearchAsync(searchContextDto.ToDomain());
+       return await repository.SearchAsync(searchContextDto.ToDomain());
     }
 }

@@ -7,22 +7,13 @@ using Infrastructure.Crosscutting.Validations;
 using DTO = Application.DTO;
 
 
-public class CreateVehiclesService : ICreateVehiclesService
+public class CreateVehiclesService(
+    IRepository repository,
+    IKafkaProducer kafkaProducer) : ICreateVehiclesService
 {
-    private readonly IRepository _repository;
-    private readonly IKafkaProducer _KafkaProducer;
-
-    public CreateVehiclesService(
-        IRepository repository,
-        IKafkaProducer kafkaProducer)
-    {
-        _repository = repository;
-        _KafkaProducer = kafkaProducer;
-    }
-
     public async Task<Guid> CreateAsync(DTO.Vehicle dtoVehicle)
     {
-        var existentVehicle = await _repository.GetByUniqueIdentifierAsync(dtoVehicle.UniqueIdentifier);
+        var existentVehicle = await repository.GetByUniqueIdentifierAsync(dtoVehicle.UniqueIdentifier);
 
         if (existentVehicle != null)
         {
@@ -38,9 +29,9 @@ public class CreateVehiclesService : ICreateVehiclesService
             throw new CustomValidationException(validationErrors);
         }
 
-        await _repository.CreateAsync(vehicle);
+        await repository.CreateAsync(vehicle);
 
-        await _KafkaProducer.ProduceAsync("vehicleTopic", "vehicle as json");
+        await kafkaProducer.ProduceAsync("vehicleTopic", "vehicle as json");
 
         return vehicle.Id;
     }

@@ -8,29 +8,17 @@ using System.ComponentModel.DataAnnotations;
 
 [ApiController]
 [Route("[controller]")]
-public class VehiclesController : Controller
+public class VehiclesController(
+    ICreateVehiclesService createVehiclesService,
+    IUpdateVehiclesService updateVehiclesService,
+    ISearchVehiclesService searchVehiclesService,
+    IGetByIdVehiclesService getByIdVehiclesService)
+    : Controller
 {
-    private readonly ICreateVehiclesService _createVehiclesService;
-    private readonly IUpdateVehiclesService _updateVehiclesService;
-    private readonly ISearchVehiclesService _searchVehiclesService;
-    private readonly IGetByIdVehiclesService _getByIdVehiclesService;
-
-    public VehiclesController(
-        ICreateVehiclesService createVehiclesService,
-        IUpdateVehiclesService updateVehiclesService,
-        ISearchVehiclesService searchVehiclesService,
-        IGetByIdVehiclesService getByIdVehiclesService)
-    {
-        _createVehiclesService = createVehiclesService;
-        _updateVehiclesService = updateVehiclesService;
-        _searchVehiclesService = searchVehiclesService;
-        _getByIdVehiclesService = getByIdVehiclesService;
-    }
-
     [HttpPost(Name = "Create")]
     public async Task<ActionResult> CreateAsync([FromBody] Vehicle vehicle)
     {
-        var vehicleId = await _createVehiclesService.CreateAsync(vehicle);
+        var vehicleId = await createVehiclesService.CreateAsync(vehicle);
         var resourceLocationUri = this.Request?.GetDisplayUrl() + $"/{vehicleId}";
         return this.Created(resourceLocationUri, vehicleId);
     }
@@ -38,7 +26,7 @@ public class VehiclesController : Controller
     [HttpPut(Name = "Update")]
     public async Task<ActionResult> UpdateAsync([FromBody] Vehicle vehicle)
     {
-        var vehicleId = await _updateVehiclesService.UpdateAsync(vehicle);
+        var vehicleId = await updateVehiclesService.UpdateAsync(vehicle);
         var resourceLocationUri = this.Request?.GetDisplayUrl() + $"/{vehicleId}";
         return this.Created(resourceLocationUri, vehicleId);
     }
@@ -46,7 +34,7 @@ public class VehiclesController : Controller
     [HttpGet, Route("GetById")]
     public async Task<ActionResult> GetByIdAsync([Required, FromQuery] Guid id)
     {
-        return this.Ok(await _getByIdVehiclesService.GetByIdAsync(id));
+        return this.Ok(await getByIdVehiclesService.GetByIdAsync(id));
     }
 
     [HttpPost, Route("Search")]
@@ -56,6 +44,6 @@ public class VehiclesController : Controller
         [FromQuery] int? pageSize = null
         )
     {
-        return this.Ok(await _searchVehiclesService.SearchAsync(searchContext));
+        return this.Ok(await searchVehiclesService.SearchAsync(searchContext));
     }
 }

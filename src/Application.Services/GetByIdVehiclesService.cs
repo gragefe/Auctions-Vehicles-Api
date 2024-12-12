@@ -7,19 +7,11 @@ using Infrastructure.Crosscutting.Validations;
 using DTO = Application.DTO;
 
 
-public class GetByIdVehiclesService : IGetByIdVehiclesService
+public class GetByIdVehiclesService(IRepository repository) : IGetByIdVehiclesService
 {
-    private readonly IRepository _repository;
-
-    public GetByIdVehiclesService(
-        IRepository repository)
-    {
-        _repository = repository;
-    }
-
     public async Task<DTO.Vehicle> GetByIdAsync(Guid id)
     {
-        var vehicle = await _repository.GetByIdAsync(id);
+        var vehicle = await repository.GetByIdAsync(id);
 
         if (vehicle == null) throw new CustomValidationException(CustomValidationMessages.NonExistentVehicle);
 
