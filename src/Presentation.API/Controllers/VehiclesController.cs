@@ -38,7 +38,7 @@ public class VehiclesController(
     }
 
     [HttpPost, Route("Search")]
-    public async Task<ActionResult<Page<Vehicle>>> SearechAsync(
+    public async Task<ActionResult<Page<Vehicle>>> SearchAsync(
         [FromBody] SearchContext searchContext,
         [FromQuery] int? page = null,
         [FromQuery] int? pageSize = null
