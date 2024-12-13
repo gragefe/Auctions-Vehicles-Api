@@ -1,13 +1,21 @@
-version: "3.9"
 services:
-  vehicles_sql:
+  sqlserver:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
-    container_name: vehicles_sql_server
+    container_name: sqlserver
     ports:
       - "1433:1433" 
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=VehicleSqlPAssword123
+  mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./scripts/sql_scripts/create_vehicles_db.sql:/tmp/create_vehicles_db.sql
+      - ./scripts/sql_scripts/create_vehicles_db.sql:/tmp/create_vehicles_table.sql
+      - ./scripts/execute_sql_scripts.sh:/tmp/execute_sql_scripts.sh
+    command: /bin/bash ./tmp/execute_sql_scripts.sh
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
