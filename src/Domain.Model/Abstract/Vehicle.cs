@@ -17,7 +17,7 @@ public abstract class Vehicle
 
     public int Year { get; set; }
 
-    public float StartingBid { get; set; }
+    public double StartingBid { get; set; }
 
     public int NumberOfDoors { get; set; }
 

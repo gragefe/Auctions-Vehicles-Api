@@ -9,6 +9,8 @@ public class SqlDbContext(DbContextOptions<SqlDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        modelBuilder.Entity<Vehicle>()
+            .Property(v => v.Type)
+            .HasConversion<int>(); 
     }
 }
