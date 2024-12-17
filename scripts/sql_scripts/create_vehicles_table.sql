@@ -9,11 +9,11 @@ IF NOT EXISTS (
 BEGIN
 CREATE TABLE Vehicles (
                           Id UNIQUEIDENTIFIER PRIMARY KEY,
-                          Name NVARCHAR(255) NOT NULL,
+                          Type INTEGER,
                           UniqueIdentifier NVARCHAR(255) NOT NULL,
                           Manufacturer NVARCHAR(255) NOT NULL,
                           Model NVARCHAR(255) NOT NULL,
-                          Year DATE NOT NULL,
+                          Year INTEGER,
                           StartingBid FLOAT NOT NULL,
                           NumberOfDoors INTEGER,
                           NumberOfSeats INTEGER,
