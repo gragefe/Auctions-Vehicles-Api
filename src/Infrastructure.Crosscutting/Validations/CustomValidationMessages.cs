@@ -13,6 +13,8 @@ public static class CustomValidationMessages
     public const string MustBeGreaterThanZero = "Must be greater than zero.";
 
     public const string NonExistentVehicle = "Non-existent vehicle.";
+    
+    public const string InvalidVehicleId = "The vehicle Id is invalid, it needs to match with the vehicle Id in the body.";
 
     public const string NonExistentVehicleType = "Inavalid vehicle type.";
 }

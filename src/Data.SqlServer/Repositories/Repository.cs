@@ -5,10 +5,8 @@ using Data.SqlServer.Queries;
 using Domain.Model;
 using Domain.Model.Abstract;
 using Domain.Model.Interfaces;
+using Infrastructure.Crosscutting.Validations;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public class Repository(SqlDbContext context) : IRepository
 {
@@ -52,8 +50,23 @@ public class Repository(SqlDbContext context) : IRepository
 
     public async Task UpdateAsync(Vehicle vehicle)
     {
-        var vehicleData = VehiclesFactory.ToSql(vehicle);
+        var vehicleData = await context.Vehicles.FindAsync(vehicle.Id);
+
+        if (vehicleData == null)
+        {
+            throw new CustomValidationException(CustomValidationMessages.NonExistentVehicle);
+        }
+        
+        vehicleData.Model = vehicle.Model;
+        vehicleData.Type = vehicle.Type.ToDto();
+        vehicleData.Model = vehicle.Model;
+        vehicleData.Year = vehicle.Year;
+        vehicleData.UniqueIdentifier = vehicle.UniqueIdentifier;
+        vehicleData.Manufacturer = vehicle.Manufacturer;
+        vehicleData.StartingBid = vehicle.StartingBid;
+        vehicleData.NumberOfDoors = vehicle.NumberOfDoors;
 
         context.Vehicles.Update(vehicleData);
+        await context.SaveChangesAsync();
     }
 }

@@ -2,7 +2,6 @@
 
 using Application.Services.Interfaces;
 using Application.Services.Mappers;
-using AutoMapper;
 using Domain.Model.Interfaces;
 using Infrastructure.Crosscutting.Validations;
 using DTO = Application.DTO;
@@ -14,13 +13,6 @@ public class UpdateVehiclesService(
 {
     public async Task<Guid> UpdateAsync(DTO.Vehicle dtoVehicle)
     {
-        var existentVehicle = await repository.GetByIdAsync(dtoVehicle.Id);
-
-        if (existentVehicle == null)
-        {
-            throw new CustomValidationException(CustomValidationMessages.NonExistentVehicle);
-        }
-
         var vehicle = VehiclesFactory.ToDomain(dtoVehicle);
 
         var validationErrors = vehicle.Validate();

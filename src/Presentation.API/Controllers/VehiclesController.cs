@@ -5,6 +5,7 @@ using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Infrastructure.Crosscutting.Validations;
 
 [ApiController]
 [Route("[controller]")]
@@ -24,8 +25,13 @@ public class VehiclesController(
     }
 
     [HttpPut(Name = "Update")]
-    public async Task<ActionResult> UpdateAsync([FromBody] Vehicle vehicle)
+    public async Task<ActionResult> UpdateAsync([Required, FromQuery] Guid id, [FromBody] Vehicle vehicle)
     {
+        if (id != vehicle.Id)
+        {
+            throw new CustomValidationException(CustomValidationMessages.InvalidVehicleId);
+        }
+        
         var vehicleId = await updateVehiclesService.UpdateAsync(vehicle);
         var resourceLocationUri = this.Request?.GetDisplayUrl() + $"/{vehicleId}";
         return this.Created(resourceLocationUri, vehicleId);
