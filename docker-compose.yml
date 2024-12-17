@@ -13,7 +13,7 @@ services:
       - sqlserver
     volumes:
       - ./scripts/sql_scripts/create_vehicles_db.sql:/tmp/create_vehicles_db.sql
-      - ./scripts/sql_scripts/create_vehicles_db.sql:/tmp/create_vehicles_table.sql
+      - ./scripts/sql_scripts/create_vehicles_table.sql:/tmp/create_vehicles_table.sql
       - ./scripts/execute_sql_scripts.sh:/tmp/execute_sql_scripts.sh
     command: /bin/bash ./tmp/execute_sql_scripts.sh
   zookeeper:
