@@ -9,7 +9,7 @@ internal static class SearchQueryBuilder
     {
         IQueryable<Vehicle> query = db.Vehicles;
 
-        if (searchContext.VehicleType != Domain.Model.Enum.VehicleType.None)
+        if (searchContext.VehicleType != null && searchContext.VehicleType != Domain.Model.Enum.VehicleType.None)
         {
             query = query.Where(c => c.Type == (Enum.VehicleType)searchContext.VehicleType);
         }
