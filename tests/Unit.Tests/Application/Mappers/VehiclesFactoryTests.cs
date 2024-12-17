@@ -36,7 +36,7 @@ public class VehiclesFactoryMapperTests
     public void ToDomain_WithSuvDto_ReturnsSuvDomain()
     {
         // Arrange
-        var dtoVehicle = new Vehicle { Type = VehicleType.SUV };
+        var dtoVehicle = new Vehicle { Type = VehicleType.Suv };
 
         // Act
         var domainVehicle = VehiclesFactory.ToDomain(dtoVehicle);

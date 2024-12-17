@@ -13,7 +13,7 @@ public static class VehiclesFactory
         {
             Data.SqlServer.Enum.VehicleType.HatchBack => HatchBackSqlMapper.ToDomain(dtoVehicle),
             Data.SqlServer.Enum.VehicleType.Sedan => SedanSqlMapper.ToDomain(dtoVehicle),
-            Data.SqlServer.Enum.VehicleType.SUV => SuvSqlMapper.ToDomain(dtoVehicle),
+            Data.SqlServer.Enum.VehicleType.Suv => SuvSqlMapper.ToDomain(dtoVehicle),
             Data.SqlServer.Enum.VehicleType.Truck => TruckSqlMapper.ToDomain(dtoVehicle),
             _ => throw new CustomValidationException(CustomValidationMessages.NonExistentVehicleType)
         };
@@ -25,7 +25,7 @@ public static class VehiclesFactory
         {
             DomainEnum.VehicleType.HatchBack => MappToSqlVehicle.ToDto(domainVehicle),
             DomainEnum.VehicleType.Sedan => MappToSqlVehicle.ToDto(domainVehicle),
-            DomainEnum.VehicleType.SUV => MappToSqlVehicle.ToDto(domainVehicle),
+            DomainEnum.VehicleType.Suv => MappToSqlVehicle.ToDto(domainVehicle),
             DomainEnum.VehicleType.Truck => MappToSqlVehicle.ToDto(domainVehicle),
             _ => throw new CustomValidationException(CustomValidationMessages.NonExistentVehicleType)
         };

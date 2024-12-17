@@ -12,7 +12,7 @@ public static class VehicleTypeMapper
         {
             SqlEnum.VehicleType.HatchBack => DomainEnum.VehicleType.HatchBack,
             SqlEnum.VehicleType.Sedan => DomainEnum.VehicleType.Sedan,
-            SqlEnum.VehicleType.SUV => DomainEnum.VehicleType.SUV,
+            SqlEnum.VehicleType.Suv => DomainEnum.VehicleType.Suv,
             SqlEnum.VehicleType.Truck => DomainEnum.VehicleType.Truck,
             _ => throw new CustomValidationException(CustomValidationMessages.NonExistentVehicleType)
         };
@@ -24,7 +24,7 @@ public static class VehicleTypeMapper
         {
             DomainEnum.VehicleType.HatchBack => SqlEnum.VehicleType.HatchBack,
             DomainEnum.VehicleType.Sedan => SqlEnum.VehicleType.Sedan,
-            DomainEnum.VehicleType.SUV => SqlEnum.VehicleType.SUV,
+            DomainEnum.VehicleType.Suv => SqlEnum.VehicleType.Suv,
             DomainEnum.VehicleType.Truck => SqlEnum.VehicleType.Truck,
             _ => throw new CustomValidationException(CustomValidationMessages.NonExistentVehicleType)
         };
