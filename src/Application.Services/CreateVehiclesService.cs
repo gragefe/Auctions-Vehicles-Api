@@ -20,7 +20,9 @@ public class CreateVehiclesService(
             throw new CustomValidationException(CustomValidationMessages.ExistentUniqueIdentifier);
         }
 
-        var vehicle = VehiclesFactory.ToDomain(dtoVehicle);
+        var vehicle = dtoVehicle.ToDomain();
+        
+        vehicle.Id = Guid.NewGuid();
 
         var validationErrors = vehicle.Validate();
 
@@ -29,7 +31,7 @@ public class CreateVehiclesService(
             throw new CustomValidationException(validationErrors);
         }
 
-        await repository.CreateAsync(vehicle);
+        vehicle = await repository.CreateAsync(vehicle);
 
         await kafkaProducer.ProduceAsync("vehicleTopic", "vehicle as json");
 
